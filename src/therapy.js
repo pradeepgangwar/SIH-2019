@@ -62,7 +62,7 @@ function bubbleChart1() {
         link: d.link,
         class_type: d.class_type,
         x: Math.random() * 1000,
-        y: Math.random() * 900
+        y: Math.random() * 900,
       };
     });
 
@@ -203,8 +203,8 @@ function bubbleChart1() {
 
     force.on('tick', function (e) {
       bubbles.each(moveToYears(e.alpha))
-        .attr('cx', function (d) { return d.x; })
-        .attr('cy', function (d) { return d.y; });
+        .attr('cx', function (d) { return (d.x - 40); })
+        .attr('cy', function (d) { return (d.y - 170) });
     });
 
     force.start();
