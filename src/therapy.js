@@ -9,14 +9,12 @@ function bubbleChart1() {
     Dermatology: { x: width / 5, y: height / 2 },
     AntiInfective: { x: 2*width / 5, y: height / 2 },
     Respiratory: { x: 3* width / 5, y: height / 2 },
-    Urology: { x: 4 * width / 5, y: height / 2 },
   };
 
   var yearsTitleX = {
     Dermatology: 200,
     AntiInfective: 500,
     Respiratory: 850,
-    Urology: 1200,
   };
 
   var damper = 0.102;
@@ -166,7 +164,6 @@ function bubbleChart1() {
         if(d.class_type==="Respiratory")
           return fillColor3(d.group); 
         else
-        if(d.class_type==="Urology")
         return fillColor4(d.group); 
       })
       .attr('stroke', function (d) { return d3.rgb(fillColor1(d.group)).darker(); })

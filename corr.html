@@ -2,28 +2,34 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Bubble Chart - vallandingham.me</title>
+  <title>Bubble Chart</title>
   <meta name="description" content="Example Bubble chart implementation in JS. Based on NYT visualization">
   <meta name="author" content="Jim Vallandingham">
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/bubble_chart.css">
+
+  <style>
+    #img {
+      margin-left: 100px;
+      margin-top: 140px
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <!-- <h1>Gates Foundation Educational Spending</h1> -->
     <div id="toolbar">
-      <a href="#" id="all" class="button active">Therapy Categories</a>
+      <a href="index.html" id="all" class="button">Therapy Categories</a>
       <a href="split.html" id="year" class="button">Research Data</a>
-      <a href="corr.html" id="corr" class="button">Correlation</a>
+      <a href="#" id="corr" class="button active">Correlation</a>
     </div>
-    <div id="vis"></div>
+    <div>
+      <img src="data/index.png" id="img">
+    </div>
   </div>
 
   <script src="lib/d3.js"></script>
-  <script src="src/tooltip.js"></script>
-  <script src="src/bubble_chart.js"></script>
-
 </body>
 </html>
