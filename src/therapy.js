@@ -8,15 +8,15 @@ function bubbleChart1() {
   var yearCenters = {
     Dermatology: { x: width / 5, y: height / 2 },
     AntiInfective: { x: 2*width / 5, y: height / 2 },
-    Nutraceutical: { x: 3* width / 5, y: height / 2 },
-    PainManagement: { x: 4 * width / 5, y: height / 2 },
+    Respiratory: { x: 3* width / 5, y: height / 2 },
+    Urology: { x: 4 * width / 5, y: height / 2 },
   };
 
   var yearsTitleX = {
     Dermatology: 200,
     AntiInfective: 500,
-    Nutraceutical: 850,
-    PainManagement: 1200,
+    Respiratory: 850,
+    Urology: 1200,
   };
 
   var damper = 0.102;
@@ -50,20 +50,19 @@ function bubbleChart1() {
     .domain(['low', 'lowmedium', 'medium', 'mediumhigh', 'high'])
     .range(['#9F8CD0', '#6D50B7', '#573E96', '#2D204E', '#2D204E']);
 
-  var radiusScale = d3.scale.pow()
-    .exponent(4)
-    .range([2, 50]);
+  // var radiusScale = d3.scale.pow()
+  //   .exponent(4)
+  //   .range([2, 50]);
 
   function createNodes(rawData) {
     var myNodes = rawData.map(function (d) {
       return {
-        id: d.id,
+        document_id: d.document_id,
         radius: 23,
-        value: d.total_amount,
-        name: d.grant_title,
-        org: d.organization,
+        topic: d.topic,
         group: d.group,
-        therapy: d.therapy,
+        link: d.link,
+        class_type: d.class_type,
         x: Math.random() * 1000,
         y: Math.random() * 900
       };
@@ -76,8 +75,8 @@ function bubbleChart1() {
 
   var chart = function chart(selector, rawData) {
     // console.log(rawData);
-    var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
-    radiusScale.domain([0, maxAmount]);
+    // var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
+    // radiusScale.domain([0, maxAmount]);
 
     nodes = createNodes(rawData);
     force.nodes(nodes);
@@ -87,7 +86,7 @@ function bubbleChart1() {
       .attr('height', height);
 
     bubbles = svg.selectAll('.bubble')
-      .data(nodes, function (d) { return d.id; });
+      .data(nodes, function (d) { return d.document_id; });
     
     // let result = rawData.map(a => a.therapy);
     // console.log(result);
@@ -156,22 +155,24 @@ function bubbleChart1() {
     bubbles.enter().append('circle')
       .classed('bubble', true)
       .attr('r', 0)
+      .attr('href', function(d) { return d.link; })
       .attr('fill', function (d) { 
-        if(d.therapy==="Dermatology")
+        if(d.class_type==="Dermatology")
           return fillColor1(d.group); 
         else
-        if(d.therapy==="AntiInfective")
+        if(d.class_type==="AntiInfective")
           return fillColor2(d.group); 
         else
-        if(d.therapy==="PainManagement")
+        if(d.class_type==="Respiratory")
           return fillColor3(d.group); 
         else
-        if(d.therapy==="Nutraceutical")
+        if(d.class_type==="Urology")
         return fillColor4(d.group); 
       })
       .attr('stroke', function (d) { return d3.rgb(fillColor1(d.group)).darker(); })
       .attr('stroke-width', 0.5)
       .on('mouseover', showDetail)
+      .on('mousedown', function(d) { window.open(d.link, '_blank'); win.focus(); })
       .on('mouseout', hideDetail);
 
     bubbles.transition()
@@ -214,7 +215,7 @@ function bubbleChart1() {
 
   function moveToYears(alpha) {
     return function (d) {
-      var target = yearCenters[d.therapy];
+      var target = yearCenters[d.class_type];
       // console.log(target);
       d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
       d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
@@ -251,13 +252,7 @@ function bubbleChart1() {
     d3.select(this).attr('stroke', 'black');
 
     var content = '<span class="name">Title: </span><span class="value">' +
-                  d.name +
-                  '</span><br/>' +
-                  '<span class="name">Amount: </span><span class="value">' +
-                  addCommas1(d.value) +
-                  '</span><br/>' +
-                  '<span class="name">Percentage: </span><span class="value">' +
-                  addCommas1((d.value/182)*100) +
+                  d.topic +
                   '</span><br/>' +
                   '</span>';
     tooltip.showTooltip(content, d3.event);
@@ -344,7 +339,7 @@ function addCommas1(nStr) {
 }
 
 // Load the data.
-d3.csv('data/reddy_molecules.csv', display1);
+d3.csv('data/reddy_final.csv', display1);
 // myBubbleChart1.toggleDisplay('year');
 // setup the buttons.
 // setupButtons();
