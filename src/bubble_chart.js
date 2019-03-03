@@ -58,10 +58,10 @@ function bubbleChart() {
     .friction(0.9);
 
 
-  // Nice looking colors - no reason to buck the trend
-  var fillColor = d3.scale.ordinal()
-    .domain(['low', 'lowmedium', 'medium', 'mediumhigh', 'high'])
-    .range(['#db700d', '#dbb10d', '#81e8ef', '#009ece', '#5bf7b3']);
+  // // Nice looking colors - no reason to buck the trend
+  // var fillColor = d3.scale.ordinal()
+  //   .domain(['low', 'lowmedium', 'medium', 'mediumhigh', 'high'])
+  //   .range(['#D1EF00', '', '#573F99']);
 
   // Sizes bubbles based on their area instead of raw radius
   var radiusScale = d3.scale.pow()
@@ -145,9 +145,9 @@ function bubbleChart() {
     bubbles.enter().append('circle')
       .classed('bubble', true)
       .attr('r', 0)
-      .attr('fill', function (d) { return fillColor(d.group); })
-      .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
-      .attr('stroke-width', 2)
+      .attr('fill', function (d) { return d.group; })
+      .attr('stroke', function (d) { return d3.rgb(d.group).darker(); })
+      .attr('stroke-width', 0.5)
       .on('mouseover', showDetail)
       .on('mouseout', hideDetail);
 
@@ -284,7 +284,7 @@ function bubbleChart() {
                   addCommas(d.value) +
                   '</span><br/>' +
                   '<span class="name">Percentage: </span><span class="value">' +
-                  addCommas((d.value/182)*100) +
+                  addCommas((d.value/647)*100) +
                   '</span><br/>' +
                   '</span>';
     tooltip.showTooltip(content, d3.event);
@@ -296,7 +296,7 @@ function bubbleChart() {
   function hideDetail(d) {
     // reset outline
     d3.select(this)
-      .attr('stroke', d3.rgb(fillColor(d.group)).darker());
+      .attr('stroke', d3.rgb(d.group).darker());
 
     tooltip.hideTooltip();
   }
