@@ -203,7 +203,7 @@ function bubbleChart1() {
 
     force.on('tick', function (e) {
       bubbles.each(moveToYears(e.alpha))
-        .attr('cx', function (d) { return (d.x - 40); })
+        .attr('cx', function (d) { return (d.x - 70); })
         .attr('cy', function (d) { return (d.y - 170) });
     });
 
